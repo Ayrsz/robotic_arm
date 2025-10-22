@@ -1,0 +1,40 @@
+running egg_info
+creating ../../build/robot_arm/robot_arm.egg-info
+writing ../../build/robot_arm/robot_arm.egg-info/PKG-INFO
+writing dependency_links to ../../build/robot_arm/robot_arm.egg-info/dependency_links.txt
+writing entry points to ../../build/robot_arm/robot_arm.egg-info/entry_points.txt
+writing requirements to ../../build/robot_arm/robot_arm.egg-info/requires.txt
+writing top-level names to ../../build/robot_arm/robot_arm.egg-info/top_level.txt
+writing manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+reading manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+copying robot_arm/__init__.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+copying robot_arm/robot_planner.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+copying robot_arm/robot_controller.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+running install
+running install_lib
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/__init__.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/robot_planner.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/robot_controller.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/robot_planner.py to robot_planner.cpython-312.pyc
+byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/robot_controller.py to robot_controller.cpython-312.pyc
+running install_data
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index
+creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index/packages
+copying resource/robot_arm -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index/packages
+copying package.xml -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/robot_arm
+running install_egg_info
+Copying ../../build/robot_arm/robot_arm.egg-info to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm-0.0.0-py3.12.egg-info
+running install_scripts
+Installing robot_controller script to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/robot_arm
+Installing robot_planner script to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/robot_arm
+writing list of installed files to '/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/install.log'

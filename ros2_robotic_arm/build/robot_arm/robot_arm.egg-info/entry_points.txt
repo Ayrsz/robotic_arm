@@ -1,0 +1,3 @@
+[console_scripts]
+robot_controller = robot_arm.robot_controller:main
+robot_planner = robot_arm.robot_planner:main

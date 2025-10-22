@@ -1,0 +1,42 @@
+[0.701s] Invoking command in '/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/src/robot_arm': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_arm build --build-base /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build install --record /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/install.log --single-version-externally-managed install_data
+[0.933s] running egg_info
+[0.933s] creating ../../build/robot_arm/robot_arm.egg-info
+[0.953s] writing ../../build/robot_arm/robot_arm.egg-info/PKG-INFO
+[0.953s] writing dependency_links to ../../build/robot_arm/robot_arm.egg-info/dependency_links.txt
+[0.953s] writing entry points to ../../build/robot_arm/robot_arm.egg-info/entry_points.txt
+[0.953s] writing requirements to ../../build/robot_arm/robot_arm.egg-info/requires.txt
+[0.953s] writing top-level names to ../../build/robot_arm/robot_arm.egg-info/top_level.txt
+[0.953s] writing manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+[0.992s] reading manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+[0.992s] adding license file 'LICENSE'
+[0.992s] writing manifest file '../../build/robot_arm/robot_arm.egg-info/SOURCES.txt'
+[0.992s] running build
+[0.992s] running build_py
+[0.992s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build
+[0.992s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib
+[0.993s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+[0.993s] copying robot_arm/__init__.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+[0.993s] copying robot_arm/robot_planner.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+[0.993s] copying robot_arm/robot_controller.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm
+[0.993s] running install
+[0.998s] running install_lib
+[1.017s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+[1.017s] copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/__init__.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+[1.018s] copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/robot_planner.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+[1.018s] copying /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build/lib/robot_arm/robot_controller.py -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm
+[1.018s] byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/__init__.py to __init__.cpython-312.pyc
+[1.018s] byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/robot_planner.py to robot_planner.cpython-312.pyc
+[1.018s] byte-compiling /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm/robot_controller.py to robot_controller.cpython-312.pyc
+[1.018s] running install_data
+[1.018s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index
+[1.018s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index
+[1.018s] creating /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index/packages
+[1.018s] copying resource/robot_arm -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/ament_index/resource_index/packages
+[1.019s] copying package.xml -> /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/share/robot_arm
+[1.019s] running install_egg_info
+[1.039s] Copying ../../build/robot_arm/robot_arm.egg-info to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages/robot_arm-0.0.0-py3.12.egg-info
+[1.040s] running install_scripts
+[1.172s] Installing robot_controller script to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/robot_arm
+[1.172s] Installing robot_planner script to /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/robot_arm
+[1.172s] writing list of installed files to '/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/install.log'
+[1.192s] Invoked command in '/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/src/robot_arm' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/install/robot_arm/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robot_arm build --build-base /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/build install --record /home/CIN/mas11/Documents/robotic_arm/ros2_robotic_arm/build/robot_arm/install.log --single-version-externally-managed install_data
