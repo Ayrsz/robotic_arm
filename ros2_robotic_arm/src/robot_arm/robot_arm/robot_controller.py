@@ -1,5 +1,7 @@
+
+
 def main():
-    print('Hi from robot_arm.')
+    print('Hi from controller.')
 
 
 if __name__ == '__main__':
