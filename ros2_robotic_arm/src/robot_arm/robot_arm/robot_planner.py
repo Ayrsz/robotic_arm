@@ -35,13 +35,13 @@ class Kinematic:
         
         arccos_factor_numerator = (x-self.l3*cos(fi))**2 + (y-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
         arccos_factor_denominator = 2*self.l1*self.l2
-        theta3 = -np.arccos(arccos_factor_numerator/arccos_factor_denominator)
+        theta3 = np.arccos(arccos_factor_numerator/arccos_factor_denominator)
         
         
         #Theta 2 in function of theta3.
         arctan_factor1 = (y - self.l3*sin(fi))/(x - self.l3*cos(fi))
         arctan_factor2 = (self.l2*sin(theta3))/(self.l1 + self.l2*cos(theta3))
-        theta2 = np.arctan(arctan_factor1) + np.arctan(arctan_factor2)
+        theta2 = np.arctan(arctan_factor1) - np.arctan(arctan_factor2)
         
         
         
@@ -51,7 +51,15 @@ class Kinematic:
         return np.array([theta1, theta2, theta3, theta4])
         
     def direct_kinematic(self, theta1, theta2, theta3, theta4):
-        pass
+        # solving for Z
+        z = self.l1*sin(theta2) + self.l2*sin(theta2+theta3) + self.l3*sin(theta2+theta3+theta4)
+
+        # solving for X and Y
+        comprimento = self.l1*cos(theta2) + self.l2*cos(theta2+theta3) + self.l3*cos(theta2+theta3+theta4)
+        x = comprimento * cos(theta1)
+        y = comprimento * sin(theta1)
+
+        return np.array([x,y,z])
         
         
 class TrajectoryPlanner:
