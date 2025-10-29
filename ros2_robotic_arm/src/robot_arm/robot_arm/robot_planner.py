@@ -32,14 +32,15 @@ class Kinematic:
         #rotate in the z axis
         theta1 = np.arctan(y/x)
         
+        comprimento = (x**2 + y**2)**0.5
         
-        arccos_factor_numerator = (x-self.l3*cos(fi))**2 + (y-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
+        arccos_factor_numerator = (comprimento-self.l3*cos(fi))**2 + (z-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
         arccos_factor_denominator = 2*self.l1*self.l2
         theta3 = np.arccos(arccos_factor_numerator/arccos_factor_denominator)
         
         
         #Theta 2 in function of theta3.
-        arctan_factor1 = (y - self.l3*sin(fi))/(x - self.l3*cos(fi))
+        arctan_factor1 = (z - self.l3*sin(fi))/(comprimento - self.l3*cos(fi))
         arctan_factor2 = (self.l2*sin(theta3))/(self.l1 + self.l2*cos(theta3))
         theta2 = np.arctan(arctan_factor1) - np.arctan(arctan_factor2)
         
