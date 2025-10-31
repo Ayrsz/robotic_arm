@@ -6,7 +6,7 @@ from trajectory_msgs.msg import JointTrajectory
 
 import numpy as np
 from math import sin, cos, sqrt
-#Calcular tempo de aceleração, tempo de desaceleração, fazer 15 graus por seg de velocidade max
+
 
 def main():
     print('Hi from planner.')
@@ -26,18 +26,24 @@ class Kinematic:
         self.l3 = l3
 
     #TASK SPACE -> JOINTS SPACE
-    def inverse_kinematic(self, position : np.ndarray):
+    def IK(self, p : np.ndarray) -> np.ndarray:
 
-        assert len(position) == 4
-        x, y, z, fi = position
+        assert len(p) == 4
+        x, y, z, fi = p
         #rotate in the z axis
-        theta1 = np.arctan(y/x)
+        theta1 = np.arctan2(y,x)
 
         comprimento = (x**2 + y**2)**0.5
 
         arccos_factor_numerator = (comprimento-self.l3*cos(fi))**2 + (z-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
         arccos_factor_denominator = 2*self.l1*self.l2
-        theta3 = np.arccos(arccos_factor_numerator/arccos_factor_denominator)
+        print("O: ", arccos_factor_numerator/arccos_factor_denominator)
+        if(arccos_factor_numerator/arccos_factor_denominator > 1):
+          theta3 = 0
+          if arccos_factor_numerator/arccos_factor_denominator > 1.2:
+            print("the value supposed to be in arccos is big, so the values are not gonna match")
+        else:
+          theta3 = -np.arccos(arccos_factor_numerator/arccos_factor_denominator) # choose the negative theta3 angle instead of the positive one
 
 
         #Theta 2 in function of theta3.
@@ -52,8 +58,9 @@ class Kinematic:
 
         return np.array([theta1, theta2, theta3, theta4])
 
-    def direct_kinematic(self, theta1, theta2, theta3, theta4):
+    def FK(self, q: np.ndarray) -> np.ndarray:
         # solving for Z
+        theta1, theta2, theta3, theta4 = q
         z = self.l1*sin(theta2) + self.l2*sin(theta2+theta3) + self.l3*sin(theta2+theta3+theta4)
 
         # solving for X and Y
@@ -61,62 +68,9 @@ class Kinematic:
         x = comprimento * cos(theta1)
         y = comprimento * sin(theta1)
 
-        return np.array([x,y,z])
+        phi = theta2+theta3+theta4
 
-import sys
-import matplotlib.pyplot as plt
-import numpy as np
-from math import sin, cos, sqrt
-#Calcular tempo de aceleração, tempo de desaceleração, fazer 15 graus por seg de velocidade max
-class Kinematic:
-    #theta1 -> Base rotation
-    #theta2, theta3 -> Two joints adjacents to the base rotation
-    #theta4 -> Hand joint
-    def __init__(self, l1, l2, l3):
-        #init the size of the joints
-        self.l1 = l1
-        self.l2 = l2
-        self.l3 = l3
-
-    #TASK SPACE -> JOINTS SPACE
-    def inverse_kinematic(self, position : np.ndarray):
-
-        assert len(position) == 4
-        x, y, z, fi = position
-        #rotate in the z axis
-        theta1 = np.arctan(y/x)
-
-        comprimento = (x**2 + y**2)**0.5
-
-        arccos_factor_numerator = (comprimento-self.l3*cos(fi))**2 + (z-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
-        arccos_factor_denominator = 2*self.l1*self.l2
-        theta3 = np.arccos(arccos_factor_numerator/arccos_factor_denominator)
-
-
-        #Theta 2 in function of theta3.
-        arctan_factor1 = (z - self.l3*sin(fi))/(comprimento - self.l3*cos(fi))
-        arctan_factor2 = (self.l2*sin(theta3))/(self.l1 + self.l2*cos(theta3))
-        theta2 = np.arctan(arctan_factor1) - np.arctan(arctan_factor2)
-
-
-
-        #Hand rotate
-        theta4 = fi - theta2 - theta3
-
-        return np.array([theta1, theta2, theta3, theta4])
-
-    def direct_kinematic(self, theta1, theta2, theta3, theta4):
-        # solving for Z
-        z = self.l1*sin(theta2) + self.l2*sin(theta2+theta3) + self.l3*sin(theta2+theta3+theta4)
-
-        # solving for X and Y
-        comprimento = self.l1*cos(theta2) + self.l2*cos(theta2+theta3) + self.l3*cos(theta2+theta3+theta4)
-        x = comprimento * cos(theta1)
-        y = comprimento * sin(theta1)
-
-        fi = theta2 + theta3 + theta4 
-
-        return np.array([x,y,z,fi])
+        return np.array([x,y,z,phi])
 
 
 class TrajectoryPlanner:
@@ -185,7 +139,7 @@ class TrajectoryPlanner:
 
     def planning_for_points(self, target_position_task):
         
-        target_position_joints = self.kin.inverse_kinematic(target_position_task)
+        target_position_joints = self.kin.IK(target_position_task)
         
         planning_joint1 = self.planning_joint(self.current_position_joint[0], target_position_joints[0])
         planning_joint2 = self.planning_joint(self.current_position_joint[1], target_position_joints[1])
