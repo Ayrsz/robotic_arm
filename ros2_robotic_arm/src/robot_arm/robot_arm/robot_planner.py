@@ -13,75 +13,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-class Kinematic:
-    #theta1 -> Base rotation
-    #theta2, theta3 -> Two joints adjacents to the base rotation
-    #theta4 -> Hand joint
-    def __init__(self, l1, l2, l3):
-        #init the size of the joints 
-        self.l1 = l1
-        self.l2 = l2
-        self.l3 = l3
-    
-    #TASK SPACE -> JOINTS SPACE
-    def inverse_kinematic(self, position : np.ndarray):
-        
-        assert len(position) == 4
-        x, y, z, fi = position
-        #rotate in the z axis
-        theta1 = np.arctan(y/x)
-        
-        comprimento = (x**2 + y**2)**0.5
-        
-        arccos_factor_numerator = (comprimento-self.l3*cos(fi))**2 + (z-self.l3*sin(fi))**2 - self.l1**2 - self.l2**2
-        arccos_factor_denominator = 2*self.l1*self.l2
-        theta3 = np.arccos(arccos_factor_numerator/arccos_factor_denominator)
-        
-        
-        #Theta 2 in function of theta3.
-        arctan_factor1 = (z - self.l3*sin(fi))/(comprimento - self.l3*cos(fi))
-        arctan_factor2 = (self.l2*sin(theta3))/(self.l1 + self.l2*cos(theta3))
-        theta2 = np.arctan(arctan_factor1) - np.arctan(arctan_factor2)
-        
-        
-        
-        #Hand rotate
-        theta4 = fi - theta2 - theta3
-            
-        return np.array([theta1, theta2, theta3, theta4])
-        
-    def direct_kinematic(self, theta1, theta2, theta3, theta4):
-        # solving for Z
-        z = self.l1*sin(theta2) + self.l2*sin(theta2+theta3) + self.l3*sin(theta2+theta3+theta4)
-
-        # solving for X and Y
-        comprimento = self.l1*cos(theta2) + self.l2*cos(theta2+theta3) + self.l3*cos(theta2+theta3+theta4)
-        x = comprimento * cos(theta1)
-        y = comprimento * sin(theta1)
-
-        return np.array([x,y,z])
-        
-        
-class TrajectoryPlanner:
-    def __init__(self, vel_max_task: float, aceleration_max_task : float,
-                 vel_max_joint : float, aceleration_max_joint : float,
-                 initial_position_task : np.array = np.array([1, 1, 1, 1])): 
-        #INITIAL POSITION IN (X, Y, Z, FI) !!!! 
-        self.vel_max_task = vel_max_task
-        self.vel_max_joint = vel_max_joint
-        self.aceleration_max_task = aceleration_max_task
-        self.aceleration_max_joint = aceleration_max_joint
-        self.initial_position_task = initial_position_task
-
-    def get_extremes_point(self, target_point_task, l1, l2, l3):
-        assert len(target_point_task) == 4
-        kin = Kinematic(l1, l2, l3)
-        initial_pose = kin.inverse_kinematic(self.initial_position_task)
-        final_pose = kin.inverse_kinematic(target_point_task)
-        return (initial_pose, final_pose)
-    
-    import sys
 import matplotlib.pyplot as plt
 import numpy as np
 from math import sin, cos, sqrt
@@ -134,26 +65,7 @@ class Kinematic:
 
         return np.array([x,y,z])
 
-
 class TrajectoryPlanner:
-    def __init__(self, vel_max_task: float, aceleration_max_task : float,
-                 vel_max_joint : float, aceleration_max_joint : float,
-                 initial_position_task : np.array = np.array([1, 1, 1, 1])):
-        #INITIAL POSITION IN (X, Y, Z, FI) !!!!
-        self.vel_max_task = vel_max_task
-        self.vel_max_joint = vel_max_joint
-        self.aceleration_max_task = aceleration_max_task
-        self.aceleration_max_joint = aceleration_max_joint
-        self.initial_position_task = initial_position_task
-
-    def get_extremes_point(self, target_point_task, l1, l2, l3):
-        assert len(target_point_task) == 4
-        kin = Kinematic(l1, l2, l3)
-        initial_pose = kin.inverse_kinematic(self.initial_position_task)
-        final_pose = kin.inverse_kinematic(target_point_task)
-        return (initial_pose, final_pose)
-
-    class TrajectoryPlanner:
     def __init__(self, vel_max_task: float, aceleration_max_task : float,
                  vel_max_joint : float, aceleration_max_joint : float,
                  initial_position_task : np.array = np.array([1, 1, 1, 1])):
