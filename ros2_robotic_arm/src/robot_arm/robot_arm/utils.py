@@ -162,13 +162,13 @@ class TrajectoryPlanner:
         planning_joint1 = np.concatenate((planning_joint1, extra_array1))
 
         extra_array2 = np.ones(max_len - len(planning_joint2))*planning_joint2[-1]
-        planning_joint2 = np.concat((planning_joint2, extra_array2))
+        planning_joint2 = np.concatenate((planning_joint2, extra_array2))
 
         extra_array3 = np.ones(max_len - len(planning_joint3))*planning_joint3[-1]
-        planning_joint3 = np.concat((planning_joint3, extra_array3))
+        planning_joint3 = np.concatenate((planning_joint3, extra_array3))
 
         extra_array4 = np.ones(max_len - len(planning_joint4))*planning_joint4[-1]
-        planning_joint4 = np.concat((planning_joint4, extra_array4))
+        planning_joint4 = np.concatenate((planning_joint4, extra_array4))
 
         # update the current position of the arm
         if updateCurrPos:

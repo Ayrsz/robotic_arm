@@ -7,7 +7,9 @@
   <maintainer email="mas11@todo.todo">mas11</maintainer>
   <license>Apache-2.0</license>
   <exec_depend>rclpy</exec_depend>
-  <exec_depend>std msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>trajectory_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
   <exec_depend>python-numpy</exec_depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
