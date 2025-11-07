@@ -10,8 +10,8 @@ from math import sin, cos, sqrt
 from .utils import TrajectoryPlanner
 
 
-MAX_JOINT_VELOCITY = 2 # RAD/s
-MAX_JOINT_ACCELERATION = 1 # RAD/s²
+MAX_JOINT_VELOCITY = np.pi/6 # RAD/s
+MAX_JOINT_ACCELERATION = np.pi/18 # RAD/s²
 L1 = 10.3
 L2 = 12.28
 L3 = 5.2
@@ -42,15 +42,15 @@ class MinimalClientAsync ( Node ) :
        
         for point in points:
             jointTrajectoryPoint = JointTrajectoryPoint()
-            jointTrajectoryPoint.positions.append(Float64(point[0]))
-            jointTrajectoryPoint.positions.append(Float64(point[1]))
-            jointTrajectoryPoint.positions.append(Float64(point[2]))
-            jointTrajectoryPoint.positions.append(Float64(point[3]))
+            jointTrajectoryPoint.positions.append(point[0])
+            jointTrajectoryPoint.positions.append(point[1])
+            jointTrajectoryPoint.positions.append(point[2])
+            jointTrajectoryPoint.positions.append(point[3])
             jointTrajectoryPoints.append(jointTrajectoryPoint)
         
         jointTrajectory.points = jointTrajectoryPoints
 
-        self.req.trajectory.points = jointTrajectory
+        self.req.data = jointTrajectory
         return self.cli.call_async(self.req)
 
 

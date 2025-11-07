@@ -1,6 +1,8 @@
 import numpy as np
 from math import sin, cos, sqrt
 
+# [GRAUS] -> [GRAUS]
+
 class Kinematic:
     #theta1 -> Base rotation
     #theta2, theta3 -> Two joints adjacents to the base rotation
@@ -18,8 +20,13 @@ class Kinematic:
         Input: p = [x, y, z, fi] (fi is the angle of the hand with the horizontal plane) \n
         Output: q = [theta1, theta2, theta3, theta4] \n
         """
-        assert len(p) == 4
+        
+        assert len(p) == 4 
+
         x, y, z, fi = p
+        fi = np.deg2rad(fi) #FI IS RECIEVED IN DEGRESS
+        
+ 
         #rotate in the z axis
         theta1 = np.arctan2(y,x)
 
@@ -45,7 +52,7 @@ class Kinematic:
         #Hand rotate
         theta4 = fi - theta2 - theta3
 
-        return np.array([theta1, theta2, theta3, theta4])
+        return np.rad2deg(np.array([theta1, theta2, theta3, theta4])) #RETURN IN DEGRESS
 
     #JOINTS SPACE -> TASK SPACE
     def FK(self, q: np.ndarray) -> np.ndarray:
@@ -54,7 +61,7 @@ class Kinematic:
         Input: q = [theta1, theta2, theta3, theta4] (fi is the angle of the hand with the horizontal plane) \n
         Output: p = [x, y, z, fi] (fi is the angle of the hand with the horizontal plane) \n
         """
-
+        q = np.deg2rad(q) #Q IS RECEIVED IN DEGREE
         # solving for Z
         theta1, theta2, theta3, theta4 = q
         z = self.l1*sin(theta2) + self.l2*sin(theta2+theta3) + self.l3*sin(theta2+theta3+theta4)
@@ -65,13 +72,13 @@ class Kinematic:
         y = comprimento * sin(theta1)
 
         phi = theta2+theta3+theta4
-
+        phi = np.rad2deg(phi) #PHI IS IN DEGREE
         return np.array([x,y,z,phi])
 
 
 class TrajectoryPlanner:
     def __init__(self, vel_max_joint : float, aceleration_max_joint : float,
-                 l1, l2 , l3, frequency = 50, current_position_joint = np.array([0, np.pi/2, -np.pi/2, 0])):
+                 l1, l2 , l3, frequency = 50, current_position_joint = np.array([0, 90, -90, 0])):
     
         self.vel_max_joint = vel_max_joint
         self.aceleration_max_joint = aceleration_max_joint
@@ -141,12 +148,14 @@ class TrajectoryPlanner:
     def move(self, target_position_task: np.ndarray, updateCurrPos: bool = True) -> np.ndarray:
         """
         Returns a trajectory of the arm from the current position to the target position in joint space \n
-        Input: target_position_task = [x, y, z, fi] \n
-        Output: trajectory = Each row = [theta1, theta2, theta3, theta
+        Input: target_position_task = [x, y, z, fi], fi in DEGRESS \n
+        Output: trajectory = Each row = [theta1, theta2, theta3, theta4] in DEGRESS
         """
-        
+
         # get target position in joints space
+        
         target_position_joints = self.kin.IK(target_position_task)
+        
         
         # get the trajectory for each joint
         planning_joint1 = self.planning_joint(self.current_position_joint[0], target_position_joints[0]) 
@@ -162,16 +171,17 @@ class TrajectoryPlanner:
         planning_joint1 = np.concatenate((planning_joint1, extra_array1))
 
         extra_array2 = np.ones(max_len - len(planning_joint2))*planning_joint2[-1]
-        planning_joint2 = np.concat((planning_joint2, extra_array2))
+        planning_joint2 = np.concatenate((planning_joint2, extra_array2))
 
         extra_array3 = np.ones(max_len - len(planning_joint3))*planning_joint3[-1]
-        planning_joint3 = np.concat((planning_joint3, extra_array3))
+        planning_joint3 = np.concatenate((planning_joint3, extra_array3))
 
         extra_array4 = np.ones(max_len - len(planning_joint4))*planning_joint4[-1]
-        planning_joint4 = np.concat((planning_joint4, extra_array4))
+        planning_joint4 = np.concatenate((planning_joint4, extra_array4))
 
         # update the current position of the arm
         if updateCurrPos:
             self.current_position_joint = np.array([planning_joint1[-1], planning_joint2[-1], planning_joint3[-1], planning_joint4[-1]])
 
+        
         return np.stack([planning_joint1, planning_joint2, planning_joint3, planning_joint4], axis=1)
