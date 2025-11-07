@@ -82,10 +82,10 @@ class TrajectoryPlanner:
     # plan only a single joint
     def planning_joint(self, q_initial: float, q_final: float) -> np.ndarray:
         """
-        Returns a trajectory of a single joint \n
-        Input: q_initial = initial angle of the joint \n
-               q_final = final angle of the joint \n
-        Output: positions = trajectory of a single joint \n
+        Returns a trajectory of a single joint 
+        Input: q_initial = initial angle of the joint 
+               q_final = final angle of the joint 
+        Output: positions = trajectory of a single joint
         """
 
         distance = q_final - q_initial # delta s
@@ -134,7 +134,7 @@ class TrajectoryPlanner:
             positions[i] = positions[i-1] + speeds[i]*dt
 
 
-        print(f"GIVEN JOINT FINAL {q_final}, GOT JOINT FINAL {positions[-1]}")
+        print(f"GOING FROM {q_initial} to {positions[-1]}")
         return positions
 
     # plan the trajectory from the current position to the target position in joint space

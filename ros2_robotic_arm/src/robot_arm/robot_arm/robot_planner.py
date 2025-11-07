@@ -5,14 +5,12 @@ from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from std_msgs.msg import Float64
 from arm_interfaces.srv import FollowTrajectory
-
-
 import numpy as np
 from math import sin, cos, sqrt
 from .utils import TrajectoryPlanner
 
 
-MAX_JOINT_VELOCITY = 1 # RAD/s
+MAX_JOINT_VELOCITY = 2 # RAD/s
 MAX_JOINT_ACCELERATION = 1 # RAD/s²
 L1 = 10.3
 L2 = 12.28
@@ -22,12 +20,13 @@ L3 = 5.2
 class MinimalClientAsync ( Node ) :
 
     def __init__ ( self ) :
-        super () . __init__ ('minimal_client_async')
-        self.cli = self.create_client (FollowTrajectory, 'robot_planner')
+        super () . __init__ ('robot_planner')
+        self.cli = self.create_client (FollowTrajectory, 'moveServer/followTrajectory_srv')
         self.trajectoryPlanner = TrajectoryPlanner(MAX_JOINT_VELOCITY, MAX_JOINT_ACCELERATION, L1, L2, L3)
         while not self.cli.wait_for_service(timeout_sec =1.0):
           self.get_logger().info ('waiting for service ...')
           self.req = FollowTrajectory.Request()
+        self.get_logger().info ('Conected')
     
     def move(self, position: np.ndarray) -> None:
         """
@@ -66,6 +65,7 @@ def main():
     future = cliente.move(position_aim)
     rclpy.spin_until_future_complete(cliente, future)
     response = future.result()
+    print(f"RESPOSTAS {response}")
 
     cliente.destroy_node()
     rclpy.shutdown()
