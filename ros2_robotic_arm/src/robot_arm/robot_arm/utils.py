@@ -182,6 +182,26 @@ class TrajectoryPlanner:
         # update the current position of the arm
         if updateCurrPos:
             self.current_position_joint = np.array([planning_joint1[-1], planning_joint2[-1], planning_joint3[-1], planning_joint4[-1]])
+            print(f"NOW THE CURRENT JOINT IS {self.current_position_joint}")
 
         
         return np.stack([planning_joint1, planning_joint2, planning_joint3, planning_joint4], axis=1)
+
+if __name__ == "__main__":
+
+    while(True):
+        positions = input("Insira a posição deseja, separada por espaco, digite :")
+        
+        if positions.upper() == "STOP":
+            break
+        
+        
+        x, y, z, fi = positions.split(" ") 
+        x, y, z, fi = float(x), float(y) , float(z), float(fi)
+        
+        cliente = TrajectoryPlanner(10, 1, 5, 5, 5)
+        future = cliente.move(np.array([x, y, z, fi], dtype = np.float32))
+        response = future.result()
+        print(f"RESPOSTAS {response}")
+        
+    

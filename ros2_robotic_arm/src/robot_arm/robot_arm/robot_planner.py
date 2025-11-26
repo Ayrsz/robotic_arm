@@ -1,10 +1,12 @@
 import sys
 import rclpy 
 import matplotlib.pyplot as plt
+
 from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from std_msgs.msg import Float64
 from arm_interfaces.srv import FollowTrajectory
+
 import numpy as np
 from math import sin, cos, sqrt
 from .utils import TrajectoryPlanner
@@ -53,18 +55,26 @@ class MinimalClientAsync ( Node ) :
 
 
 def main():
-    #x, y, z, fi = sys.argv[1:5]
-    position_aim = np.array([L2+L3, 0, L1, 0], np.float32)
-    
+    #x, y, z, fi = sys.argv[1:5]    
     
     rclpy.init()
-    cliente = MinimalClientAsync()
-    future = cliente.move(position_aim)
-    rclpy.spin_until_future_complete(cliente, future)
-    response = future.result()
-    print(f"RESPOSTAS {response}")
-
-    cliente.destroy_node()
+    while(True):
+        positions = input("Insira a posição deseja, separada por espaco, digite :")
+        
+        if positions.upper() == "STOP":
+            break
+        
+        
+        x, y, z, fi = positions.split(" ") 
+        x, y, z, fi = float(x), float(y) , float(z), float(fi)
+        target_position = np.array([x, y, z, fi])
+        
+        cliente = MinimalClientAsync()
+        future = cliente.move(target_position, dtype = np.float32)
+        rclpy.spin_until_future_complete(cliente, future)
+        response = future.result()
+        print(f"RESPOSTAS {response}")
+        
     rclpy.shutdown()
     
 
