@@ -10,8 +10,8 @@ from math import sin, cos, sqrt
 from .utils import TrajectoryPlanner
 
 
-MAX_JOINT_VELOCITY = np.pi/6 # RAD/s
-MAX_JOINT_ACCELERATION = np.pi/18 # RAD/s²
+MAX_JOINT_VELOCITY = 60 # degrees/s
+MAX_JOINT_ACCELERATION = 10 # degrees/s²
 L1 = 10.3
 L2 = 12.28
 L3 = 5.2
@@ -25,8 +25,8 @@ class MinimalClientAsync ( Node ) :
         self.trajectoryPlanner = TrajectoryPlanner(MAX_JOINT_VELOCITY, MAX_JOINT_ACCELERATION, L1, L2, L3)
         while not self.cli.wait_for_service(timeout_sec =1.0):
           self.get_logger().info ('waiting for service ...')
-          self.req = FollowTrajectory.Request()
         self.get_logger().info ('Conected')
+        self.req = FollowTrajectory.Request()
     
     def move(self, position: np.ndarray) -> None:
         """
@@ -34,7 +34,7 @@ class MinimalClientAsync ( Node ) :
         """
 
         points = self.trajectoryPlanner.move(position)
-        #(theta1, theta2, theta3, theta4), (theta11, theta21)
+        #[[theta1_1, theta2_1, theta3_1, theta4_1], [theta1_2, theta2_2, theta3_2, theta4_2] ...]
         
         jointTrajectory = JointTrajectory()
         jointTrajectoryPoints = []
@@ -42,10 +42,7 @@ class MinimalClientAsync ( Node ) :
        
         for point in points:
             jointTrajectoryPoint = JointTrajectoryPoint()
-            jointTrajectoryPoint.positions.append(point[0])
-            jointTrajectoryPoint.positions.append(point[1])
-            jointTrajectoryPoint.positions.append(point[2])
-            jointTrajectoryPoint.positions.append(point[3])
+            jointTrajectoryPoint.positions = [point[0], point[1] ,point[2], point[3]]
             jointTrajectoryPoints.append(jointTrajectoryPoint)
         
         jointTrajectory.points = jointTrajectoryPoints
@@ -56,8 +53,8 @@ class MinimalClientAsync ( Node ) :
 
 
 def main():
-    x, y, z, fi = sys.argv[1:5]
-    position_aim = np.array([x, y, z, fi], np.float32)
+    #x, y, z, fi = sys.argv[1:5]
+    position_aim = np.array([L2+L3, 0, L1, 0], np.float32)
     
     
     rclpy.init()
