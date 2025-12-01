@@ -9,11 +9,13 @@ from arm_interfaces.srv import FollowTrajectory
 
 import numpy as np
 from math import sin, cos, sqrt
-from .utils import TrajectoryPlanner
-
+try:
+    from utils import TrajectoryPlanner
+except:
+    from .utils import TrajectoryPlanner
 
 MAX_JOINT_VELOCITY = 60 # degrees/s
-MAX_JOINT_ACCELERATION = 10 # degrees/s²
+MAX_JOINT_ACCELERATION = 5 # degrees/s²
 L1 = 10.3
 L2 = 12.28
 L3 = 5.2
@@ -58,8 +60,9 @@ def main():
     #x, y, z, fi = sys.argv[1:5]    
     
     rclpy.init()
+    cliente = MinimalClientAsync()
     while(True):
-        positions = input("Insira a posição deseja, separada por espaco, digite :")
+        positions = input("Insira a posição deseja, separada por espaco, digite ""stop"" para parar:")
         
         if positions.upper() == "STOP":
             break
@@ -67,14 +70,13 @@ def main():
         
         x, y, z, fi = positions.split(" ") 
         x, y, z, fi = float(x), float(y) , float(z), float(fi)
-        target_position = np.array([x, y, z, fi])
+        target_position = np.array([x, y, z, fi], dtype = np.float32)
         
-        cliente = MinimalClientAsync()
-        future = cliente.move(target_position, dtype = np.float32)
+        future = cliente.move(target_position)
         rclpy.spin_until_future_complete(cliente, future)
         response = future.result()
         print(f"RESPOSTAS {response}")
-        
+    #    
     rclpy.shutdown()
     
 

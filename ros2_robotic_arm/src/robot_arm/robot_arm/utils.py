@@ -165,6 +165,7 @@ class TrajectoryPlanner:
 
         # get the legth of the trajectory that takes more time to finish the movement
         max_len = max(len(planning_joint1), len(planning_joint2), len(planning_joint3), len(planning_joint4))
+        print(max_len)
 
         #filling gaps with the last position of each joint to make all joints have the same length
         extra_array1 = np.ones(max_len - len(planning_joint1))*planning_joint1[-1]
@@ -201,7 +202,11 @@ if __name__ == "__main__":
         
         cliente = TrajectoryPlanner(10, 1, 5, 5, 5)
         future = cliente.move(np.array([x, y, z, fi], dtype = np.float32))
-        response = future.result()
-        print(f"RESPOSTAS {response}")
+        
+        print(f"RESPOSTAS {future[:, 0][:10]}")
+        #print(f"RESPOSTAS {future[1][:10]}")
+        #print(f"RESPOSTAS {future[2][:10]}")
+        #print(f"RESPOSTAS {future[3][:10]}")
+
         
     
