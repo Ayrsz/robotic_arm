@@ -90,8 +90,8 @@ class TrajectoryPlanner:
 
         #The position is [l2 + l3, 0, l1, 0] by default because the model
         self.current_position_task = self.kin.FK(current_position_joint)
-        self.vel_max_task = vel_max_joint/20
-        self.aceleration_max_task = aceleration_max_joint/20 # Just to test!
+        self.vel_max_task = vel_max_joint/10
+        self.aceleration_max_task = aceleration_max_joint/5 # Just to test!
 
     # plan only a single joint
     def planning_single_trajectory(self, initial_position: float, final_position: float, velocity_value : float, aceleration_value : float) -> np.ndarray:
@@ -214,6 +214,8 @@ class TrajectoryPlanner:
             current_position = self.current_position_task
             v = self.vel_max_task
             a = self.vel_max_joint
+            self.frequency = 2*self.frequency
+            
         else:
             raise ValueError("Wrong mode")
 
@@ -239,6 +241,8 @@ class TrajectoryPlanner:
         if mode == "task":
             results = self.vectorized_IK(planning_target1, planning_target2, planning_target3, planning_target4)
             planning_target1, planning_target2, planning_target3, planning_target4 = results
+            self.frequency = self.frequency/2
+
 
 
 
