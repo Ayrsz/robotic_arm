@@ -32,12 +32,12 @@ class MinimalClientAsync ( Node ) :
         self.get_logger().info ('Conected')
         self.req = FollowTrajectory.Request()
     
-    def move(self, position: np.ndarray) -> None:
+    def move(self, position: np.ndarray, planner_type : str) -> None:
         """
         Input: position in task space [x,y,z,phi]
         """
 
-        points = self.trajectoryPlanner.move(position)
+        points = self.trajectoryPlanner.move(position, planner_type)
         #[[theta1_1, theta2_1, theta3_1, theta4_1], [theta1_2, theta2_2, theta3_2, theta4_2] ...]
         
         jointTrajectory = JointTrajectory()
@@ -61,6 +61,7 @@ def main():
     
     rclpy.init()
     cliente = MinimalClientAsync()
+    type_planning = input("Qual o domínio do planejamento desejado? ""joint"" para juntas e ""task"" para tarefa:")
     while(True):
         positions = input("Insira a posição deseja, separada por espaco, digite ""stop"" para parar:")
         
@@ -72,7 +73,7 @@ def main():
         x, y, z, fi = float(x), float(y) , float(z), float(fi)
         target_position = np.array([x, y, z, fi], dtype = np.float32)
         
-        future = cliente.move(target_position)
+        future = cliente.move(target_position, type_planning)
         rclpy.spin_until_future_complete(cliente, future)
         response = future.result()
         print(f"RESPOSTAS {response}")
