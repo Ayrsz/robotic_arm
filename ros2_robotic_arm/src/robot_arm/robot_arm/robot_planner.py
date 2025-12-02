@@ -14,7 +14,7 @@ try:
 except:
     from .utils import TrajectoryPlanner
 
-MAX_JOINT_VELOCITY = 60 # degrees/s
+MAX_JOINT_VELOCITY = 30 # degrees/s
 MAX_JOINT_ACCELERATION = 5 # degrees/s²
 L1 = 10.3
 L2 = 12.28
@@ -37,7 +37,7 @@ class MinimalClientAsync ( Node ) :
         Input: position in task space [x,y,z,phi]
         """
 
-        points = self.trajectoryPlanner.move(position, planner_type)
+        points = self.trajectoryPlanner.move(position, mode = planner_type)
         #[[theta1_1, theta2_1, theta3_1, theta4_1], [theta1_2, theta2_2, theta3_2, theta4_2] ...]
         
         jointTrajectory = JointTrajectory()
@@ -68,11 +68,13 @@ def main():
         if positions.upper() == "STOP":
             break
         
-        
-        x, y, z, fi = positions.split(" ") 
-        x, y, z, fi = float(x), float(y) , float(z), float(fi)
-        target_position = np.array([x, y, z, fi], dtype = np.float32)
-        
+        try:
+            x, y, z, fi = positions.split(" ") 
+            x, y, z, fi = float(x), float(y) , float(z), float(fi)
+            target_position = np.array([x, y, z, fi], dtype = np.float32)
+        except:
+            print("QUANTIDADE DE PARAMETROS FOI INVALIDO")
+            continue
         future = cliente.move(target_position, type_planning)
         rclpy.spin_until_future_complete(cliente, future)
         response = future.result()
