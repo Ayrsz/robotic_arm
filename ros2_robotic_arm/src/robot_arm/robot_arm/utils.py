@@ -86,6 +86,12 @@ class TrajectoryPlanner:
         self.frequency = frequency
         self.kin = Kinematic(l1, l2, l3)
     
+    @staticmethod
+    def repeat_position(vector : np.ndarray, size_aim : int):
+        extra_array = np.ones(size_aim - len(vector))*vector[-1]
+        vector = np.concatenate((vector, extra_array))
+        return vector
+    
     # plan only a single joint
     def planning_joint(self, q_initial: float, q_final: float) -> np.ndarray:
         """
@@ -164,21 +170,14 @@ class TrajectoryPlanner:
         planning_joint4 = self.planning_joint(self.current_position_joint[3], target_position_joints[3])
 
         # get the legth of the trajectory that takes more time to finish the movement
-        max_len = max(len(planning_joint1), len(planning_joint2), len(planning_joint3), len(planning_joint4))
-        print(max_len)
+        max_len = max(len(planning_target1), len(planning_target2), len(planning_target3), len(planning_target4))
 
         #filling gaps with the last position of each joint to make all joints have the same length
-        extra_array1 = np.ones(max_len - len(planning_joint1))*planning_joint1[-1]
-        planning_joint1 = np.concatenate((planning_joint1, extra_array1))
+        planning_target1 = self.repeat_position(planning_target1, max_len)
+        planning_target2 = self.repeat_position(planning_target2, max_len)
+        planning_target3 = self.repeat_position(planning_target3, max_len)
+        planning_target4 = self.repeat_position(planning_target4, max_len)
 
-        extra_array2 = np.ones(max_len - len(planning_joint2))*planning_joint2[-1]
-        planning_joint2 = np.concatenate((planning_joint2, extra_array2))
-
-        extra_array3 = np.ones(max_len - len(planning_joint3))*planning_joint3[-1]
-        planning_joint3 = np.concatenate((planning_joint3, extra_array3))
-
-        extra_array4 = np.ones(max_len - len(planning_joint4))*planning_joint4[-1]
-        planning_joint4 = np.concatenate((planning_joint4, extra_array4))
 
         # update the current position of the arm
         if updateCurrPos:
