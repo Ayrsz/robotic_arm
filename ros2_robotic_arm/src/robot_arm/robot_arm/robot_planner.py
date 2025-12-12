@@ -36,7 +36,12 @@ class MinimalClientAsync ( Node ) :
         """
         Input: position in task space [x,y,z,phi]
         """
-
+        if planner_type.upper() == "J":
+            planner_type = "joint"
+        elif planner_type.upper() == "T":
+            planner_type = "task"
+        else:
+            raise NameError("Not avaible")
         points = self.trajectoryPlanner.move(position, mode = planner_type)
         #[[theta1_1, theta2_1, theta3_1, theta4_1], [theta1_2, theta2_2, theta3_2, theta4_2] ...]
         
@@ -61,8 +66,8 @@ def main():
     
     rclpy.init()
     cliente = MinimalClientAsync()
-    type_planning = input("Qual o domínio do planejamento desejado? ""joint"" para juntas e ""task"" para tarefa:")
     while(True):
+        type_planning = input("Qual o domínio do planejamento desejado? ""j"" para juntas e ""t"" para tarefa:")
         positions = input("Insira a posição deseja, separada por espaco, digite ""stop"" para parar:")
         
         if positions.upper() == "STOP":
